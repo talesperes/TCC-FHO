@@ -18,8 +18,7 @@ import LoginForm from "../components/LoginForm";
 import axios from "axios";
 
 const LoginPage = () => {
-  const API_URL =
-    process.env.API_URL
+  const API_URL = process.env.API_URL;
   const navigate = useNavigate();
   const [cellphone, setCellphone] = useState("");
   const [timeRemaining, setTimeRemaining] = useState(10);
@@ -98,6 +97,16 @@ const LoginPage = () => {
         if (phoneNumber) {
           setCellphone(phoneNumber);
           setModalIsOpen(true);
+          axios
+            .post(`${API_URL}/code/sendCode`, {
+              cpf: cpf.replace(/[.-]/g, ""),
+            })
+            .then((res) => {
+              console.log("RES == ", res);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
         }
       })
       .catch((error) => {
