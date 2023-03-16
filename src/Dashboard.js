@@ -15,6 +15,7 @@ const DashboardContainer = styled.div`
   flex-direction: column;
   height: 100vh;
   background-color: #f0f2f5;
+  overflow-x: hidden;
 `;
 
 const Header = styled.div`
@@ -28,6 +29,7 @@ const Content = styled.div`
   display: flex;
   flex: 1;
   padding: 20px;
+  flex-wrap: wrap;
 `;
 
 const Sidebar = styled.div`
@@ -36,6 +38,11 @@ const Sidebar = styled.div`
   padding: 20px;
   border-radius: 5px;
   margin-right: 20px;
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
 `;
 
 const MenuItem = styled.div`
@@ -53,6 +60,10 @@ const CalendarContainer = styled.div`
   padding: 20px;
   border-radius: 5px;
   margin-right: 20px;
+  @media (max-width: 768px) {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
 `;
 
 const AppointmentList = styled.div`
@@ -60,6 +71,9 @@ const AppointmentList = styled.div`
   background-color: #fff;
   padding: 20px;
   border-radius: 5px;
+  @media (max-width: 768px) {
+    overflow-x: auto;
+  }
 `;
 
 const AddAppointmentButton = styled.button`
@@ -72,6 +86,7 @@ const AddAppointmentButton = styled.button`
   display: inline-block;
   font-size: 16px;
   margin: 8px 0;
+  margin-top: 20px; // Adicionei esta linha
   cursor: pointer;
   border-radius: 4px;
   float: right;
@@ -85,69 +100,6 @@ const appointments = [
     patient: "João Silva",
     doctor: "Dra. Maria Santos",
     specialty: "Cardiologia",
-    status: "Confirmado",
-  },
-  {
-    id: 2,
-    date: "2023-03-20",
-    time: "14:00",
-    patient: "Ana Oliveira",
-    doctor: "Dr. Pedro Costa",
-    specialty: "Dermatologia",
-    status: "Confirmado",
-  },
-  {
-    id: 2,
-    date: "2023-03-20",
-    time: "14:00",
-    patient: "Ana Oliveira",
-    doctor: "Dr. Pedro Costa",
-    specialty: "Dermatologia",
-    status: "Confirmado",
-  },
-  {
-    id: 2,
-    date: "2023-03-20",
-    time: "14:00",
-    patient: "Ana Oliveira",
-    doctor: "Dr. Pedro Costa",
-    specialty: "Dermatologia",
-    status: "Confirmado",
-  },
-  {
-    id: 2,
-    date: "2023-03-20",
-    time: "14:00",
-    patient: "Ana Oliveira",
-    doctor: "Dr. Pedro Costa",
-    specialty: "Dermatologia",
-    status: "Confirmado",
-  },
-  {
-    id: 2,
-    date: "2023-03-20",
-    time: "14:00",
-    patient: "Ana Oliveira",
-    doctor: "Dr. Pedro Costa",
-    specialty: "Dermatologia",
-    status: "Confirmado",
-  },
-  {
-    id: 2,
-    date: "2023-03-20",
-    time: "14:00",
-    patient: "Ana Oliveira",
-    doctor: "Dr. Pedro Costa",
-    specialty: "Dermatologia",
-    status: "Confirmado",
-  },
-  {
-    id: 2,
-    date: "2023-03-20",
-    time: "14:00",
-    patient: "Ana Oliveira",
-    doctor: "Dr. Pedro Costa",
-    specialty: "Dermatologia",
     status: "Confirmado",
   },
   {
@@ -221,6 +173,11 @@ const TableCell = styled.td`
   border: 1px solid #ccc;
 `;
 
+const TableContainer = styled.div`
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+`;
+
 const capitalize = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
@@ -279,30 +236,32 @@ const Dashboard = () => {
         </CalendarContainer>
         <AppointmentList>
           <h2>Consultas agendadas</h2>
-          <Table>
-            <thead>
-              <tr>
-                <TableHeader>Data</TableHeader>
-                <TableHeader>Hora</TableHeader>
-                <TableHeader>Paciente</TableHeader>
-                <TableHeader>Médico</TableHeader>
-                <TableHeader>Especialidade</TableHeader>
-                <TableHeader>Status</TableHeader>
-              </tr>
-            </thead>
-            <tbody>
-              {appointments.map((appointment) => (
-                <TableRow key={appointment.id}>
-                  <TableCell>{appointment.date}</TableCell>
-                  <TableCell>{appointment.time}</TableCell>
-                  <TableCell>{appointment.patient}</TableCell>
-                  <TableCell>{appointment.doctor}</TableCell>
-                  <TableCell>{appointment.specialty}</TableCell>
-                  <TableCell>{appointment.status}</TableCell>
-                </TableRow>
-              ))}
-            </tbody>
-          </Table>
+          <TableContainer>
+            <Table>
+              <thead>
+                <tr>
+                  <TableHeader>Data</TableHeader>
+                  <TableHeader>Hora</TableHeader>
+                  <TableHeader>Paciente</TableHeader>
+                  <TableHeader>Médico</TableHeader>
+                  <TableHeader>Especialidade</TableHeader>
+                  <TableHeader>Status</TableHeader>
+                </tr>
+              </thead>
+              <tbody>
+                {appointments.map((appointment) => (
+                  <TableRow key={appointment.id}>
+                    <TableCell>{appointment.date}</TableCell>
+                    <TableCell>{appointment.time}</TableCell>
+                    <TableCell>{appointment.patient}</TableCell>
+                    <TableCell>{appointment.doctor}</TableCell>
+                    <TableCell>{appointment.specialty}</TableCell>
+                    <TableCell>{appointment.status}</TableCell>
+                  </TableRow>
+                ))}
+              </tbody>
+            </Table>
+          </TableContainer>
           <AddAppointmentButton onClick={handleButtonClick}>
             Adicionar consulta
           </AddAppointmentButton>
