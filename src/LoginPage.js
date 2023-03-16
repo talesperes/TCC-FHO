@@ -164,6 +164,10 @@ const LoginPage = () => {
     setCpf(formattedValue);
   };
 
+  const requestCloseModal = () => {
+    setModalIsOpen(false);
+  }
+
   const closeModal = () => {
     setModalIsOpen(false);
     setTimeout(() => {
@@ -222,7 +226,7 @@ const LoginPage = () => {
       </LoginForm>
       <Modal
         isOpen={modalIsOpen}
-        onRequestClose={closeModal}
+        onRequestClose={requestCloseModal}
         contentLabel="Verification Modal"
         style={{
           ...customModalStyles,
