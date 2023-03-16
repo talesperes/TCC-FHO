@@ -59,10 +59,13 @@ const customModalStyles = {
   overlay: {
     display: "flex",
     justifyContent: "center",
+    alignItems: "center", // Adicione esta linha
+    padding: "0 15px", // Adicione esta linha
   },
   content: {
     position: "static",
     width: "400px",
+    maxWidth: "100%", // Adicione esta linha
     margin: "auto",
     padding: "20px",
     borderRadius: "5px",
