@@ -24,7 +24,7 @@ const LoginForm = styled.form`
 
   // Adicione esta media query
   @media (max-width: 768px) {
-    margin: 30px;
+    margin: 20px;
     width: calc(100% - 60px);
   }
 `;
@@ -63,7 +63,7 @@ const customModalStyles = {
     padding: "0 15px", // Adicione esta linha
   },
   content: {
-    position: "static",
+    position: "relative",
     width: "400px",
     maxWidth: "100%", // Adicione esta linha
     margin: "auto",
@@ -73,6 +73,7 @@ const customModalStyles = {
     maxHeight: "calc(100vh - 50px)",
     overflowY: "auto",
     transition: "opacity 300ms ease-in-out",
+    inset: "auto",
   },
 };
 
@@ -137,6 +138,16 @@ const DigitInput = styled(Input)`
   text-align: center;
 `;
 
+const CloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+`;
+
 const LoginPage = () => {
   const navigate = useNavigate();
   const cellphone = "19999999999";
@@ -166,7 +177,7 @@ const LoginPage = () => {
 
   const requestCloseModal = () => {
     setModalIsOpen(false);
-  }
+  };
 
   const closeModal = () => {
     setModalIsOpen(false);
@@ -235,6 +246,7 @@ const LoginPage = () => {
         onAfterOpen={() => setModalOpacity(1)}
         onAfterClose={() => setModalOpacity(0)}
       >
+        <CloseButton onClick={requestCloseModal}>&times;</CloseButton>
         <h2>Verificação</h2>
         <p>
           Enviamos um código de 6 dígitos para o número {cellphone}. Por favor,
