@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "moment/locale/pt-br";
 
@@ -233,6 +234,12 @@ const formatMonthTitle = (date, culture, localizer) => {
 };
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    navigate("/agendar-consulta");
+  };
+
   return (
     <DashboardContainer>
       <Header>Sistema de Agendamento de Consultas</Header>
@@ -296,7 +303,9 @@ const Dashboard = () => {
               ))}
             </tbody>
           </Table>
-          <AddAppointmentButton>Adicionar consulta</AddAppointmentButton>
+          <AddAppointmentButton onClick={handleButtonClick}>
+            Adicionar consulta
+          </AddAppointmentButton>
         </AppointmentList>
       </Content>
     </DashboardContainer>

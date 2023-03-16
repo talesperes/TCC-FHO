@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const currentDate = new Date().toISOString().split("T")[0];
 
@@ -95,13 +96,15 @@ const ScheduleAppointment = () => {
     // Adicione mais médicos aqui
   ];
 
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Implemente a lógica para salvar a consulta e voltar ao painel
+    navigate("/inicio");
   };
 
   const handleCancel = () => {
-    // Implemente a lógica para voltar ao painel sem salvar a consulta
+    navigate("/inicio");
   };
 
   const handleDoctorTypeChange = (e) => {
@@ -112,17 +115,20 @@ const ScheduleAppointment = () => {
     setDoctorName(e.target.value);
   };
 
-  const doctorsWorkingHours = useMemo(() => [
-    {
-      doctorId: 1,
-      workingHours: [
-        { day: "Segunda-feira", startTime: "08:00", endTime: "17:00" },
-        { day: "Terça-feira", startTime: "08:00", endTime: "17:00" },
-        // ...
-      ],
-    },
-    // Outros médicos
-  ], [])
+  const doctorsWorkingHours = useMemo(
+    () => [
+      {
+        doctorId: 1,
+        workingHours: [
+          { day: "Segunda-feira", startTime: "08:00", endTime: "17:00" },
+          { day: "Terça-feira", startTime: "08:00", endTime: "17:00" },
+          // ...
+        ],
+      },
+      // Outros médicos
+    ],
+    []
+  );
 
   const getAvailableHours = useCallback(
     (doctorId, day) => {

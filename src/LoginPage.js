@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -133,8 +134,8 @@ const DigitInput = styled(Input)`
   text-align: center;
 `;
 
-
 const LoginPage = () => {
+  const navigate = useNavigate();
   const cellphone = "19999999999";
   const [cpf, setCpf] = useState("");
   const [modalOpacity, setModalOpacity] = useState(0);
@@ -164,7 +165,8 @@ const LoginPage = () => {
     setModalIsOpen(false);
     setTimeout(() => {
       setIsLoading(false);
-    }, 5000); // Remove o loading circular após 5 segundos
+      navigate("/inicio");
+    }, 1500); // Remove o loading circular após 5 segundos
   };
 
   const handleVerificationCodeSubmit = (e) => {
