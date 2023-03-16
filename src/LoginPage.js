@@ -257,7 +257,7 @@ const LoginPage = () => {
             <DigitInput
               key={index}
               id={`digit-${index}`} // Adicione esta linha
-              type="text"
+              type="tel"
               maxLength="1"
               value={digit}
               onChange={(e) => handleDigitInputChange(e.target.value, index)}
