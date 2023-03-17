@@ -18,7 +18,7 @@ import LoginForm from "../components/LoginForm";
 import axios from "axios";
 
 const LoginPage = () => {
-  const API_URL = process.env.NEXT_PUBLIC_API_URL; 
+  const API_URL = "https://t0ah990vq8.execute-api.sa-east-1.amazonaws.com/dev";
   const navigate = useNavigate();
   const [cellphone, setCellphone] = useState("");
   const [timeRemaining, setTimeRemaining] = useState(10);
