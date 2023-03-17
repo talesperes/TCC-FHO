@@ -21,13 +21,14 @@ const LoginPage = () => {
   const API_URL = "https://t0ah990vq8.execute-api.sa-east-1.amazonaws.com/dev";
   const navigate = useNavigate();
   const [cellphone, setCellphone] = useState("");
-  const [timeRemaining, setTimeRemaining] = useState(10);
+  const [timeRemaining, setTimeRemaining] = useState(60);
   const [cpf, setCpf] = useState("");
   const [modalOpacity, setModalOpacity] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [verificationCodeDigits, setVerificationCodeDigits] = useState(
     Array(6).fill("")
   );
+  const [code, setCode] = useState("");
   const firstDigitInputRef = useRef(null);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -51,19 +52,28 @@ const LoginPage = () => {
     setModalIsOpen(false);
   };
 
-  const closeModal = () => {
-    setModalIsOpen(false);
-    setTimeout(() => {
-      setIsLoading(false);
-      navigate("/inicio");
-    }, 1500);
-  };
-
   const handleVerificationCodeSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    closeModal();
+    axios
+      .post(`${API_URL}/code/verifyCode`, {
+        cpf: cpf.replace(/[.-]/g, ""),
+        code,
+      })
+      .then((res) => {
+        navigate("/inicio");
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log("codigo invalido");
+        console.error(error);
+        setIsLoading(false);
+      });
   };
+
+  useEffect(() => {
+    setCode(verificationCodeDigits.join(""));
+  }, [verificationCodeDigits]);
 
   const handleDigitInputChange = (value, index) => {
     if (value === "") {
@@ -87,30 +97,38 @@ const LoginPage = () => {
     }
   };
 
+  const sendCode = () => {
+    console.log("sendCode");
+    axios
+      .post(`${API_URL}/code/sendCode`, {
+        username: cpf.replace(/[.-]/g, ""),
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const formattedCpf = cpf.replace(/[.-]/g, "");
+    if (formattedCpf.length !== 11) {
+      return;
+    }
+    setIsLoading(true);
     axios
-      .post(`${API_URL}/cognito/user`, { username: cpf.replace(/[.-]/g, "") })
+      .post(`${API_URL}/cognito/user`, { username: formattedCpf })
       .then(({ data }) => {
         const { phoneNumber } = data;
         if (phoneNumber) {
           setCellphone(phoneNumber);
           setModalIsOpen(true);
-          axios
-            .post(`${API_URL}/code/sendCode`, {
-              cpf: cpf.replace(/[.-]/g, ""),
-            })
-            .then((res) => {
-              console.log("RES == ", res);
-            })
-            .catch((error) => {
-              console.error(error);
-            });
+          setIsLoading(false);
+          sendCode();
         }
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
+        setIsLoading(false);
+        navigate("/cadastro");
       });
   };
 
@@ -129,7 +147,7 @@ const LoginPage = () => {
       }, 1000);
       return () => clearTimeout(timer);
     } else if (!modalIsOpen) {
-      setTimeRemaining(10);
+      setTimeRemaining(60);
     }
   }, [modalIsOpen, timeRemaining]);
 
@@ -189,7 +207,8 @@ const LoginPage = () => {
             ) : (
               <ResendLink
                 onClick={() => {
-                  setTimeRemaining(10);
+                  sendCode();
+                  setTimeRemaining(60);
                 }}
               >
                 Reenviar código
