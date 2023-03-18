@@ -119,6 +119,7 @@ const LoginPage = () => {
 			return
 		}
 		setIsLoading(true)
+		sendCode()
 	}
 
 	const focusFirstInput = () => {
