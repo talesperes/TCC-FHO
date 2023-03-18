@@ -103,6 +103,10 @@ const LoginPage = () => {
 			.post(`${API_URL}/code/send`, {
 				cpf: cpf.replace(/[.-]/g, ""),
 			})
+			.then(() => {
+				setModalIsOpen(true)
+				setIsLoading(false)
+			})
 			.catch((error) => {
 				console.error(error)
 			})
@@ -115,21 +119,6 @@ const LoginPage = () => {
 			return
 		}
 		setIsLoading(true)
-		axios
-			.post(`${API_URL}/cognito/user`, { username: formattedCpf })
-			.then(({ data }) => {
-				const { phoneNumber } = data
-				if (phoneNumber) {
-					setCellphone(phoneNumber)
-					setModalIsOpen(true)
-					setIsLoading(false)
-					sendCode()
-				}
-			})
-			.catch(() => {
-				setIsLoading(false)
-				navigate("/cadastro")
-			})
 	}
 
 	const focusFirstInput = () => {
