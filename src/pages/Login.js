@@ -56,7 +56,7 @@ const LoginPage = () => {
 		e.preventDefault()
 		setIsLoading(true)
 		axios
-			.post(`${API_URL}/code/verifyCode`, {
+			.post(`${API_URL}/code/verify`, {
 				cpf: cpf.replace(/[.-]/g, ""),
 				code,
 			})
